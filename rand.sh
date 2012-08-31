@@ -2,34 +2,20 @@
 
 function randomize {
 	read pattern
-	for w in `echo $pattern`
+	for word in $pattern
 	do
-		r=$RANDOM
-
-		if [ "$w" = "VERB" ];then
-			nl=`wc rand.verbs|awk '{print $1}'`
-			l=`expr $r % $nl + 1`
-			awk "NR==${l}" rand.verbs
-		elif [ "$w" = "ADV" ];then
-			nl=`wc rand.adv|awk '{print $1}'`
-			l=`expr $r % $nl + 1`
-			awk "NR==${l}" rand.adv
-		elif [ "$w" = "ADJ" ];then
-			nl=`wc rand.adj|awk '{print $1}'`
-			l=`expr $r % $nl + 1`
-			awk "NR==${l}" rand.adj
-		elif [ "$w" = "NOUN" ];then
-			nl=`wc rand.nouns|awk '{print $1}'`
-			l=`expr $r % $nl + 1`
-			awk "NR==${l}" rand.nouns
+		if [ "$word" = "VERB" ];then
+			shuf -n1 rand.verbs
+		elif [ "$word" = "ADV" ];then
+			shuf -n1 rand.adv
+		elif [ "$word" = "ADJ" ];then
+			shuf -n1 rand.adj
+		elif [ "$word" = "NOUN" ];then
+			shuf -n1 rand.nouns
 		else
-			echo $w
+			echo $word
 		fi
-	done
+	done | tr "\n" " "
 }
 
-export -f randomize
- 
-cat - <<EOF | randomize | xargs | sed 's/^./\U&/g' | sed 's/$/\./g' 
-VERB your ADJ NOUN with ADV ADJ NOUN in a ADJ NOUN and ADV VERB your NOUN
-EOF
+echo "VERB your ADJ NOUN with ADV ADJ NOUN in a ADJ NOUN and ADV VERB your NOUN" | randomize  |  sed 's/^./\U&/g' | sed 's/ $/\.\n/g' 
