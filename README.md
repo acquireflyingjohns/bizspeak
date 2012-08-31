@@ -13,7 +13,7 @@ Bizspeak Generator
 
 ./rand.sh -l
 
-3. Copy into a memo and send!
+4. Copy into a memo and send!
 
 
 To Do:
